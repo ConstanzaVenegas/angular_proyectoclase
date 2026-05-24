@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header bg-dark text-white">Lista de Productos</div>
+  <div class="card-body">
+    @if(products && products.length){
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Código</th>
+            <th>Cantidad</th>
+            <th>Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(producto of products; track producto.codigo_producto){
+            <tr>
+              <td>{{ producto.id_producto }}</td>
+              <td (click)="enviarDato(producto.nombre_producto)" style="cursor:pointer">
+                {{ producto.nombre_producto }}
+              </td>
+              <td>{{ producto.precio_producto }}</td>
+              <td>{{ producto.codigo_producto }}</td>
+              <td>{{ producto.cantidad_producto }}</td>
+              <td><app-star [rating]="producto.starRating"></app-star></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p>No hay productos disponibles</p>
+    }
+  </div>
+</div>
