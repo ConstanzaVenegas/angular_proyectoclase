@@ -1,0 +1,88 @@
+<div class="modal d-block bg-dark bg-opacity-50" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Nuevo Producto ACME</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal.emit()"></button>
+      </div>
+
+      <div class="modal-body bg-white">
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+
+          
+          <div class="mb-3">
+            <label class="form-label fw-bold">Nombre del Producto</label>
+            <input type="text" class="form-control bg-white" formControlName="nombre_producto"
+                   placeholder="Ej: Laptop ACME">
+            @if (productForm.get('nombre_producto')?.invalid &&
+                (productForm.get('nombre_producto')?.touched || productForm.get('nombre_producto')?.dirty)) {
+              <div class="text-danger small mt-1">El nombre es obligatorio (mínimo 3 caracteres).</div>
+            }
+          </div>
+
+          <div class="row">
+            
+            <div class="col-6 mb-3">
+              <label class="form-label fw-bold">Código</label>
+              <input type="text" class="form-control bg-white" formControlName="codigo_producto"
+                     placeholder="Ej: GUS-8410">
+              @if (productForm.get('codigo_producto')?.invalid &&
+                  (productForm.get('codigo_producto')?.touched || productForm.get('codigo_producto')?.dirty)) {
+                <div class="text-danger small mt-1">El código es obligatorio.</div>
+              }
+            </div>
+            
+            <div class="col-6 mb-3">
+              <label class="form-label fw-bold">Rating (1-5)</label>
+              <input type="number" class="form-control bg-white" formControlName="starRating" min="1" max="5">
+              @if (productForm.get('starRating')?.invalid &&
+                  (productForm.get('starRating')?.touched || productForm.get('starRating')?.dirty)) {
+                <div class="text-danger small mt-1">Rating debe ser entre 1 y 5.</div>
+              }
+            </div>
+          </div>
+
+          <div class="row">
+           
+            <div class="col-6 mb-3">
+              <label class="form-label fw-bold">Precio ($)</label>
+              <input type="number" class="form-control bg-white" formControlName="precio_producto" min="0">
+              @if (productForm.get('precio_producto')?.invalid &&
+                  (productForm.get('precio_producto')?.touched || productForm.get('precio_producto')?.dirty)) {
+                <div class="text-danger small mt-1">El precio debe ser 0 o mayor.</div>
+              }
+            </div>
+            <!-- Cantidad -->
+            <div class="col-6 mb-3">
+              <label class="form-label fw-bold">Cantidad</label>
+              <input type="number" class="form-control bg-white" formControlName="cantidad_producto" min="0">
+              @if (productForm.get('cantidad_producto')?.invalid &&
+                  (productForm.get('cantidad_producto')?.touched || productForm.get('cantidad_producto')?.dirty)) {
+                <div class="text-danger small mt-1">La cantidad debe ser 0 o mayor.</div>
+              }
+            </div>
+          </div>
+
+          
+          <div class="mb-3">
+            <label class="form-label fw-bold">URL Imagen (opcional)</label>
+            <input type="text" class="form-control bg-white" formControlName="url_imagen"
+                   placeholder="https://...">
+          </div>
+
+          <div class="modal-footer border-0 p-0 mt-2 bg-white">
+            <button type="button" class="btn btn-outline-secondary"
+                    (click)="closeModal.emit()">Cancelar</button>
+            <button type="submit" class="btn btn-success"
+                    [disabled]="productForm.invalid || productForm.pending">
+              Guardar Producto
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

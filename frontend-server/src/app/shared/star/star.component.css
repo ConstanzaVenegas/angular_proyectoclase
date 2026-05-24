@@ -1,0 +1,8 @@
+.crop {
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+}
+.bi-star-fill {
+  color: #f8d305;
+}

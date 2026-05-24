@@ -1,0 +1,9 @@
+.star-container{
+  width: fit-content;
+}
+
+.crop{
+  overflow: hidden;
+  white-space: nowrap;
+  color: black;
+}
