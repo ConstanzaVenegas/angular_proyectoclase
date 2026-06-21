@@ -5,7 +5,6 @@
 @if (authService.isAuthenticated()) {
   <div class="d-flex" id="wrapper">
 
-    
     <div class="bg-light border-end" id="sidebar-wrapper">
       <div class="sidebar-heading">
         <div class="user-panel">
@@ -18,7 +17,6 @@
         </div>
       </div>
 
-      
       <div class="sidebar left">
         <ul class="list-sidebar bg-defoult">
           <li>
@@ -34,8 +32,8 @@
             </a>
             <ul class="sub-menu collapse" id="productos">
               <li><a [routerLink]="['products']"><i class="bi bi-cart-fill"></i>Administrar</a></li>
-              <li><a href="">Ver fichas</a></li>
-              <li><a href="">Informes</a></li>
+              <li><a [routerLink]="['numbers']"><i class="bi bi-list-ol"></i>Ver fichas</a></li>
+              <li><a [routerLink]="['products-pagination']"><i class="bi bi-files"></i>Informes</a></li>
             </ul>
           </li>
           <li>
@@ -48,17 +46,15 @@
               <span class="bi bi-chevron-right"></span>
             </a>
             <ul class="sub-menu collapse" id="usuarios">
-              <li><a href="">Administrar</a></li>
-              <li><a href="">Ver fichas</a></li>
+              <li><a [routerLink]="['users']"><i class="bi bi-people-fill"></i>Administrar</a></li>
+              <li><a [routerLink]="['maps']"><i class="bi bi-geo-alt-fill"></i>Ver Mapas</a></li>
               <li><a href="">Informes</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </div>
-    
 
-    
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -90,8 +86,6 @@
         <router-outlet></router-outlet>
       </div>
     </div>
-    
 
   </div>
- 
 }

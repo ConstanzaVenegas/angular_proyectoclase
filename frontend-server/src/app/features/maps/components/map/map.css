@@ -1,0 +1,13 @@
+.map-container {
+  padding: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+google-map {
+  display: block;
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,7 @@
+<h2>virtualist works!</h2>
+<cdk-virtual-scroll-viewport itemSize="50" class="list-container list-group">
+  <div class="list-group-item"
+       *cdkVirtualFor="let num of numbers; let i = index; let conteo = count">
+    Item {{ i }} / {{ conteo }}
+  </div>
+</cdk-virtual-scroll-viewport>

@@ -1,0 +1,31 @@
+<div class="map-container">
+  <h1>Angular con Google Maps</h1>
+
+  <div class="form-group">
+    <label for="addressInput">Ingrese Dirección</label>
+    <!-- Al presionar Enter o perder el foco (blur), buscará la ubicación -->
+    <input type="text" class="form-control" placeholder="Escriba una calle y presione Enter"
+      #addressInput [value]="direccion()"
+      (keyup.enter)="buscarDireccion(addressInput.value)"
+      (blur)="buscarDireccion(addressInput.value)" />
+  </div>
+
+  @if (isMapLoaded()) {
+    <google-map height="500px" width="100%" [center]="center()" [zoom]="zoom">
+      @for (marker of markers(); track marker.id) {
+        <map-marker
+          [position]="marker.position"
+          [options]="markerOptions"
+          [draggable]="true"
+          (mapDragend)="onMarkerDragEnd($any($event))" />
+      }
+    </google-map>
+  } @else {
+    <div class="alert alert-info">Cargando mapa...</div>
+  }
+
+  <h5 class="mt-3">Datos de Ubicación</h5>
+  <div><strong>Dirección Actual:</strong> {{ direccion() }}</div>
+  <div>Latitud: {{ latitud() }}</div>
+  <div>Longitud: {{ longitud() }}</div>
+</div>

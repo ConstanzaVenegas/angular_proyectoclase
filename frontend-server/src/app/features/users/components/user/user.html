@@ -1,0 +1,15 @@
+<div class="virtual-scroll-wrap">
+  <cdk-virtual-scroll-viewport itemSize="100">
+    <ul>
+      <li *cdkVirtualFor="let user of data" class="animated lightSpeedIn">
+        <div class="thumbnail-wrap">
+          <img [src]="user.avatar" alt="avatar">
+        </div>
+        <div class="info-wrap">
+          <strong>{{ user.name }}</strong><br>
+          <span>{{ user.email }}</span>
+        </div>
+      </li>
+    </ul>
+  </cdk-virtual-scroll-viewport>
+</div>

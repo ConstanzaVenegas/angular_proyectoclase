@@ -8,16 +8,16 @@ export class Auth {
   private http   = inject(HttpClient);
   private router = inject(Router);
 
-  
+
   isAuthenticated = signal(false);
 
   constructor() {
-   
+
     const token = localStorage.getItem('token');
     if (token && !this.isTokenExpired(token)) {
       this.isAuthenticated.set(true);
     } else {
-      
+
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
       this.isAuthenticated.set(false);
@@ -36,6 +36,17 @@ export class Auth {
 
   login(email: string, password: string) {
     return this.http.post<any>('http://localhost:3000/login', { email, password }).pipe(
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('usuario', JSON.stringify(resp.usuario));
+        this.isAuthenticated.set(true);
+      })
+    );
+  }
+
+  // Login con Google: enviamos el idToken de Google a nuestro backend
+  loginWithGoogle(googletoken: string) {
+    return this.http.post<any>('http://localhost:3000/google-login', { googletoken }).pipe(
       tap((resp: any) => {
         localStorage.setItem('token', resp.token);
         localStorage.setItem('usuario', JSON.stringify(resp.usuario));

@@ -14,8 +14,10 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
+    "google-auth-library": "^10.7.0",
     "jsonwebtoken": "^9.0.3",
     "mysql": "^2.18.1"
   },

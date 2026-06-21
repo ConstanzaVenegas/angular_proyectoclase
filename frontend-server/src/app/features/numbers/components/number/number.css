@@ -1,0 +1,13 @@
+cdk-virtual-scroll-viewport {
+  height: 500px;
+  border: 1px solid #ccc;
+}
+
+li {
+  height: 50px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  border-bottom: 1px solid #eee;
+}
