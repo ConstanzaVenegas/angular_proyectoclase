@@ -1,0 +1,49 @@
+<ngx-charts-bar-vertical
+  [results]="salesData()"
+  [view]="[700, 400]"
+  xAxisLabel="Producto"
+  yAxisLabel="Ventas"
+  legendTitle="Ventas de Productos"
+  [legend]="true"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  [xAxis]="true"
+  [yAxis]="true"
+  [gradient]="true">
+</ngx-charts-bar-vertical>
+
+<div class="card-body">
+  <h4 class="card-title border-bottom">Gráfico de Torta</h4>
+  <ngx-charts-pie-chart
+    [view]="[1000, 300]"
+    [results]="salesData()"
+    [legendTitle]="'Venta de Productos'"
+    [legend]="true"
+    [gradient]="true"
+    [labels]="true">
+  </ngx-charts-pie-chart>
+</div>
+<div class="card-body">
+  <h4 class="card-title border-bottom">Gráfico de Torta Avanzado</h4>
+  <ngx-charts-advanced-pie-chart
+    [view]="[1000, 300]"
+    [results]="salesData()"
+    [gradient]="true">
+  </ngx-charts-advanced-pie-chart>
+</div>
+<div class="card-body">
+  <h4 class="card-title border-bottom">Top 5 Productos por Rating</h4>
+  <ngx-charts-bar-horizontal
+    [view]="[700, 400]"
+    [results]="topRankingData()"
+    xAxisLabel="Rating"
+    yAxisLabel="Producto"
+    legendTitle="Top Productos"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [gradient]="true">
+  </ngx-charts-bar-horizontal>
+</div>

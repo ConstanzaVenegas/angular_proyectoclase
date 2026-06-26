@@ -187,5 +187,15 @@ app.delete('/producto/:id', (req, res) => {
     res.json({ ok: true, mensaje: 'Producto eliminado' });
   });
 });
+// GET top 5 productos por rating
+app.get('/productos/top/ranking', (req, res) => {
+  conn.query(
+    'SELECT nombre_producto, starRating FROM productos ORDER BY starRating DESC LIMIT 5',
+    (err, rows) => {
+      if (err) throw err;
+      res.json(rows);
+    }
+  );
+});
 
 app.listen(3000, () => console.log('Backend corriendo en puerto 3000'));

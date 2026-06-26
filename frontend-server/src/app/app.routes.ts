@@ -8,15 +8,17 @@ import { NumberComponent } from './features/numbers/components/number/number';
 import { UserComponent } from './features/users/components/user/user';
 import { ProductPagination } from './features/products/components/product-pagination/product-pagination';
 import { MapComponent } from './features/maps/components/map/map';
+import { ProductSalesComponent } from './features/dashboards/components/product-sales/product-sales';
 
 export const routes: Routes = [
-  { path: 'home',                component: Welcome,           canActivate: [loginGuard] },
-  { path: 'products',            component: ProductComponent,  canActivate: [loginGuard] },
-  { path: 'products-pagination', component: ProductPagination, canActivate: [loginGuard] },
-  { path: 'maps',                component: MapComponent,               canActivate: [loginGuard] },
-  { path: 'numbers',             component: NumberComponent,   canActivate: [loginGuard] },
-  { path: 'users',               component: UserComponent,     canActivate: [loginGuard] },
+  { path: 'home',                component: Welcome,                canActivate: [loginGuard] },
+  { path: 'products',            component: ProductComponent,       canActivate: [loginGuard] },
+  { path: 'products-pagination', component: ProductPagination,      canActivate: [loginGuard] },
+  { path: 'maps',                component: MapComponent,           canActivate: [loginGuard] },
+  { path: 'numbers',             component: NumberComponent,        canActivate: [loginGuard] },
+  { path: 'users',               component: UserComponent,          canActivate: [loginGuard] },
+  { path: 'dashboards',          component: ProductSalesComponent,  canActivate: [loginGuard] },
   { path: 'login',               component: Login },
-  { path: '',                    redirectTo: 'login',          pathMatch: 'full' },
+  { path: '',                    redirectTo: 'login',               pathMatch: 'full' },
   { path: '**',                  component: PageNotFound }
 ];
