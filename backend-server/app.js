@@ -175,6 +175,125 @@ app.post('/email-test', (req, res) => {
         });
     });
 });
+// ── RECUPERACIÓN DE CONTRASEÑA ─────────────────────────────────────────
+const recoveryStore = {};
+
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ ok: false, mensaje: 'Email requerido' });
+
+  conn.query('SELECT * FROM usuarios WHERE userEmail = ?', [email], async (err, results) => {
+    if (err) return res.status(500).json({ ok: false, mensaje: 'Error de base de datos' });
+
+    if (results.length === 0)
+      return res.status(404).json({ ok: false, mensaje: 'No existe una cuenta con ese email.' });
+
+    const user = results[0];
+
+    const isGoogleUser = user.userImg && user.userImg.includes('googleusercontent.com');
+    if (isGoogleUser)
+      return res.status(400).json({
+        ok: false,
+        mensaje: 'Esta cuenta usa Google para iniciar sesión. No necesita contraseña.',
+        esGoogle: true
+      });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = Date.now() + 10 * 60 * 1000;
+    recoveryStore[email] = { code, expiry };
+
+    try {
+      const accessTokenResponse = await oauth2Client.getAccessToken();
+      const accessToken = accessTokenResponse.token;
+
+      const transport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          type: 'OAuth2',
+          user: process.env.EMAIL_USER,
+          clientId: EMAIL_CLIENT_ID,
+          clientSecret: EMAIL_CLIENT_SECRET,
+          refreshToken: EMAIL_REFRESH_TOKEN,
+          accessToken: accessToken
+        },
+        tls: { rejectUnauthorized: false }
+      });
+
+      const msg = `
+        <div style="font-family: Arial, sans-serif; max-width: 480px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; padding: 32px;">
+          <h2 style="color: #333;">Recuperación de contraseña</h2>
+          <p>Hola <strong>${user.userName}</strong>,</p>
+          <p>Recibimos una solicitud para restablecer tu contraseña en <strong>ACME Corp</strong>.</p>
+          <p>Tu código de verificación es:</p>
+          <div style="font-size: 40px; font-weight: bold; letter-spacing: 10px; text-align: center;
+                      background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            ${code}
+          </div>
+          <p style="color: #888; font-size: 13px;">⏱ Este código expira en <strong>10 minutos</strong>.</p>
+          <p style="color: #888; font-size: 13px;">Si no solicitaste esto, puedes ignorar este correo.</p>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
+          <p style="color: #bbb; font-size: 11px; text-align: center;">ACME Corp — Sistema de gestión</p>
+        </div>`;
+
+      await transport.sendMail({
+        from: 'ACME Corp <' + process.env.EMAIL_USER + '>',
+        to: email,
+        subject: 'Tu código de verificación - ACME Corp',
+        html: msg
+      });
+
+      transport.close();
+      res.status(200).json({ ok: true, mensaje: 'Código enviado al correo.' });
+
+    } catch (error) {
+      console.error('Error enviando email:', error);
+      res.status(500).json({ ok: false, mensaje: 'Error al enviar el código. Intenta más tarde.' });
+    }
+  });
+});
+
+app.post('/verify-code', (req, res) => {
+  const { email, code } = req.body;
+  const entry = recoveryStore[email];
+
+  if (!entry)
+    return res.status(400).json({ ok: false, mensaje: 'No hay solicitud de recuperación para este email.' });
+
+  if (Date.now() > entry.expiry) {
+    delete recoveryStore[email];
+    return res.status(400).json({ ok: false, mensaje: 'El código ha expirado. Solicita uno nuevo.' });
+  }
+
+  if (entry.code !== code)
+    return res.status(400).json({ ok: false, mensaje: 'Código incorrecto.' });
+
+  const resetToken = jwt.sign({ email, reset: true }, SEED, { expiresIn: 600 });
+  delete recoveryStore[email];
+
+  res.status(200).json({ ok: true, resetToken });
+});
+
+app.post('/reset-password', (req, res) => {
+  const { resetToken, newPassword } = req.body;
+
+  if (!resetToken || !newPassword)
+    return res.status(400).json({ ok: false, mensaje: 'Datos incompletos.' });
+
+  jwt.verify(resetToken, SEED, (err, decoded) => {
+    if (err || !decoded.reset)
+      return res.status(401).json({ ok: false, mensaje: 'Token inválido o expirado.' });
+
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+    conn.query(
+      'UPDATE usuarios SET userPassword = ? WHERE userEmail = ?',
+      [hashedPassword, decoded.email],
+      (err) => {
+        if (err) return res.status(500).json({ ok: false, mensaje: 'Error al actualizar contraseña.' });
+        res.status(200).json({ ok: true, mensaje: 'Contraseña actualizada correctamente.' });
+      }
+    );
+  });
+});
 
 // ── MIDDLEWARE JWT (va después de las rutas públicas) ──────────────────
 app.use(function(req, res, next) {

@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.omb_login {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  padding: 40px 36px;
+  text-align: center;
+}
+
+.omb_login .omb_authTitle {
+  text-align: center;
+  margin-bottom: 4px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.omb_login .text-muted {
+  margin-bottom: 28px;
+}
+
+.omb_login .input-group {
+  margin-bottom: 18px;
+}
+
+.omb_login form br {
+  display: none;
+}
+
+.omb_login .alert {
+  margin-bottom: 18px;
+}
+
+.omb_login .text-danger.small {
+  margin-bottom: 18px;
+  margin-top: -10px;
+}
+
+.omb_login .badge.fs-5 {
+  margin-top: 4px;
+  margin-bottom: 28px;
+}
+
+.omb_login button[type="submit"] {
+  margin-top: 6px;
+}
+
+/* Reemplazamos el viejo truco de Bootstrap (margin-left: 25%) por
+   un layout flexible que centra el contenido sin depender de columnas. */
+.omb_row-sm-offset-3 {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.omb_row-sm-offset-3 > [class*="col-"] {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 auto;
+  margin-left: 0 !important;
+  padding: 0;
+}
+
+.badge.fs-5 {
+  letter-spacing: 1px;
+}
+
+input[formControlName="code"] {
+  font-size: 1.6rem;
+}
+
+.btn-lg {
+  border-radius: 10px;
+}
+
+a.text-muted.small {
+  text-decoration: none;
+}
+
+a.text-muted.small:hover {
+  text-decoration: underline;
+}

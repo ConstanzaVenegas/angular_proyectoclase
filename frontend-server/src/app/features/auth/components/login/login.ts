@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { SocialAuthService, GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, GoogleSigninButtonModule],
+  imports: [ReactiveFormsModule, GoogleSigninButtonModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

@@ -9,6 +9,8 @@ import { UserComponent } from './features/users/components/user/user';
 import { ProductPagination } from './features/products/components/product-pagination/product-pagination';
 import { MapComponent } from './features/maps/components/map/map';
 import { ProductSalesComponent } from './features/dashboards/components/product-sales/product-sales';
+import { RecoverPassword } from './features/auth/components/recover-password/recover-password';
+import { VerifyCode } from './features/auth/components/verify-code/verify-code';
 
 export const routes: Routes = [
   { path: 'home',                component: Welcome,                canActivate: [loginGuard] },
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'numbers',             component: NumberComponent,        canActivate: [loginGuard] },
   { path: 'users',               component: UserComponent,          canActivate: [loginGuard] },
   { path: 'dashboards',          component: ProductSalesComponent,  canActivate: [loginGuard] },
+  { path: 'recover-password', component: RecoverPassword },
+  { path: 'verify-code',      component: VerifyCode },
   { path: 'login',               component: Login },
   { path: '',                    redirectTo: 'login',               pathMatch: 'full' },
   { path: '**',                  component: PageNotFound }

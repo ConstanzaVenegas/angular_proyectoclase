@@ -1,7 +1,6 @@
 @if (!authService.isAuthenticated()) {
-  <app-login></app-login>
+  <router-outlet></router-outlet>
 }
-
 @if (authService.isAuthenticated()) {
   <div class="d-flex" id="wrapper">
 
